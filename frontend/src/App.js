@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Navbar from './navbar';
 
 
 function App() {
   return (
-    <h1>Property Connect App</h1>
+    <Fragment>
+      <h1 className="text-3xl font-bold underline">Property Connect App</h1>
+    </Fragment>
   );
 }
 
