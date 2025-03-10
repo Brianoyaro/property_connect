@@ -76,6 +76,12 @@ app.post('/login', async (req, res) => {
 app.post('/upload-rental', async (req, res) => {
     // status = available | rented
     const { title, description, price, location, owner_id, property_type } = req.body;
+    // check if rental already exists to prevent duplicates
+    const [ results_1 ] = await connection.query('SELECT * FROM rentals WHERE title = ? AND owner_id = ?', [title, owner_id]);
+    if (results_1.length > 0) {
+        return res.status(400).json({ error: 'Rental already exists' });
+    }
+
     // const image = req.file.filename;
     const [ rows ] = await connection.query('INSERT INTO rentals (title, description, price, location, owner_id, property_type) VALUES (?, ?, ?, ?, ?, ?)', [title, description, price, location, owner_id, property_type]);
     const [ results ] = await connection.query('SELECT * FROM rentals WHERE id = ?', [rows.insertId]);
@@ -107,7 +113,9 @@ app.post('/book-rental', async (req, res) => {
 // Get Rentals with Filtering
 app.get('/rentals', async (req, res) => {
     const { location, maxPrice, property_type } = req.query;
-    let sql = 'SELECT * FROM rentals WHERE 1=1';
+    // We should serch for avilable rentals only
+    let sql = 'SELECT * FROM rentals WHERE status = "available"';
+    //let sql = 'SELECT * FROM rentals WHERE 1=1';
     const params = [];
     if (location) {
         sql += ' AND location = ?';
@@ -121,18 +129,18 @@ app.get('/rentals', async (req, res) => {
         sql += ' AND property_type = ?';
         params.push(property_type);
     }
-    const [ results ] = await connection.query(sql, params);
+    const [ results, rows ] = await connection.query(sql, params);
     res.json({ rentals: results });
 });
 
 // Get a rental given its id
 app.get('/rentals/:id', async (req, res) => {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const [ results ] = await connection.query('SELECT * FROM rentals WHERE id = ?', [id]);
     if (results.length === 0) {
         return res.status(404).json({ error: 'Rental not found' });
     }
-    res.json({ rentals: results });
+    res.json({ rental: results[0] });
 });
 
 // start server
