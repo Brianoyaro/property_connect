@@ -28,7 +28,10 @@ const Login = () => {
       localStorage.setItem('role', response.data.role);
       setMessage('Login successful');
       //navigate('/');
-      navigate(response.data.role === 'seller' ? '/seller-home' : '/buyer-home');
+      setTimeout(() => {
+        navigate(response.data.role === 'seller' ? '/seller-home' : '/buyer-home');
+      }, 1000);
+      // navigate(response.data.role === 'seller' ? '/seller-home' : '/buyer-home');
     } catch (err) {
       setError('Invalid credentials');
     }
