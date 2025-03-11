@@ -4,6 +4,19 @@ const cors = require('cors');
 const mysql = require('mysql2/promise');
 // import mysql from 'mysql2/promise';
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
+
+// Set The Image Storage Engine
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req, file, cb){
+      cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+  });
+
+// Init Image Upload
+const upload = multer({ storage: storage });
 
 const app = express();
 const port = 4000;
@@ -16,6 +29,10 @@ app.use(cors());
 app.use(express.json());
 // parse application/x-www-form-urlencoded i.e form data
 app.use(express.urlencoded({ extended: true }));
+
+// app.use(express.static(__dirname, 'public/upoads'));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 
 
 // const db = mysql.createConnection({
@@ -77,18 +94,23 @@ app.post('/login', async (req, res) => {
 
 
 // Upload Rental Route (For Homeowners)
-app.post('/upload-rental', async (req, res) => {
+app.post('/upload-rental', upload.single('image'), async (req, res) => {
     // status = available | rented
     const { title, description, price, location, owner_id, property_type } = req.body;
+    let imageUrl = '/uploads/default.jpg';
+    if (req.file) {
+        imageUrl = '/uploads/' + req.file.filename;
+    }
+    
     // check if rental already exists to prevent duplicates
     const [ results_1 ] = await connection.query('SELECT * FROM rentals WHERE title = ? AND owner_id = ?', [title, owner_id]);
     if (results_1.length > 0) {
         return res.status(400).json({ error: 'Rental already exists' });
     }
 
-    // const image = req.file.filename;
+
     try {
-        const [ results_1 ] = await connection.query('INSERT INTO rentals (title, description, price, location, owner_id, property_type) VALUES (?, ?, ?, ?, ?, ?)', [title, description, price, location, owner_id, property_type]);
+        const [ results_1 ] = await connection.query('INSERT INTO rentals (title, description, price, location, owner_id, property_type, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?)', [title, description, price, location, owner_id, property_type, imageUrl]);
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error });

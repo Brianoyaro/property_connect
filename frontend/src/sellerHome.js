@@ -47,6 +47,11 @@ export default function SellerHome() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {properties.map((property, index) => (
                         <div key={index} className="bg-white shadow-lg rounded-lg p-4 border">
+                            <img 
+                                src={`http://localhost:4000${property.imageUrl}` || "https://via.placeholder.com/300"} 
+                                alt={property.title} 
+                                className="w-full h-48 object-cover rounded-lg"
+                            />
                             <h3 className="text-xl font-bold text-gray-800">{property.title}</h3>
                             <p className="text-gray-600">{property.description}</p>
                             <p className="text-gray-500"><strong>Location:</strong> {property.location}</p>

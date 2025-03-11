@@ -26,6 +26,7 @@ create table if not exists rentals (
     title varchar(255) not null,
     description varchar(255) not null,
     property_type varchar(255) not null,
+    imageUrl varchar(255) not null,
     status varchar(255) not null default 'available',
     foreign key (owner_id) references users(id)
 );

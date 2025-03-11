@@ -42,7 +42,7 @@ export default function BuyerHome() {
                             <Link to={`/rentals/${property.id}`} key={property.id} className="block">
                                 <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                                     <img 
-                                        src={property.image || "https://via.placeholder.com/300"} 
+                                        src={`http://localhost:4000${property.imageUrl}`|| "https://via.placeholder.com/300"} 
                                         alt={property.title} 
                                         className="w-full h-48 object-cover"
                                     />

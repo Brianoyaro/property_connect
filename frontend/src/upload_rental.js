@@ -9,6 +9,7 @@ export default function UploadRental() {
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
     const [type, setType] = useState('');
+    const [imageUrl, setImageUrl] = useState(null);
     const [price, setPrice] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -27,8 +28,21 @@ export default function UploadRental() {
             const token = localStorage.getItem('token');
             const decoded = jwtDecode(token);
             const owner_id = decoded.id;
+
+            // because we are sending file, we should use form-data
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('location', location);
+            formData.append('property_type', type);
+            formData.append('price', price);
+            formData.append('owner_id', owner_id);
+            if (imageUrl) formData.append('image', imageUrl);
             // should be property_type instead of type. Why is price saving NULL?
-            await axios.post('http://localhost:4000/upload-rental', { title, description, location, property_type: type, price, owner_id});
+            await axios.post('http://localhost:4000/upload-rental', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'}  
+                });
             setMessage('Property uploaded successfully');
             setTimeout(() => {
                 navigate('/seller-home');
@@ -44,6 +58,14 @@ export default function UploadRental() {
             {error && <p className="bg-red-500 text-white p-2 text-sm text-center rounded">{error}</p>}
             {message && <p className="bg-green-500 text-white p-2 text-sm text-center rounded">{message}</p>}
             <form className="space-y-4" onSubmit={handleRentalUpload}>
+                <div>
+                    <input type="file" id="image" onChange={(e) => setImageUrl(e.target.files[0])} className="hidden" />
+                    <label htmlFor="image" className="block text-gray-700 font-semibold cursor-pointer">
+                        <span className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                            Upload Property Image
+                        </span>
+                    </label>
+                </div>
                 <div>
                     <label htmlFor="title" className="block text-gray-700 font-semibold">Property Title</label>
                     <input type="text" id="title" value={title} 
