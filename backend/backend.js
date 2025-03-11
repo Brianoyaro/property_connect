@@ -6,7 +6,7 @@ const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 // middleware
 // ***********************
@@ -34,25 +34,29 @@ const connection = mysql.createPool({
   });
 
 app.post('/register', async (req, res) => {
-    // role = owner | buyer
+    // role = seller | buyer
     const { email, password, role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const [ results ] = await connection.query('INSERT INTO users (email, role, password) VALUES (?, ?, ?)', [email, role, hashedPassword]);
-
-    // Fetch the inserted user because insert operation only returns metadata i.e results
-    const [rows] = await connection.query(
-        'SELECT id, email, role FROM users WHERE id = ?',
-        [results.insertId]
-    );
-    res.json({ user: rows[0], results: results, message: 'User registered successfully' });
+    try {
+        const [ results ] = await connection.query('INSERT INTO users (email, role, password) VALUES (?, ?, ?)', [email, role, hashedPassword]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+        return
+    }
+    res.json({ message: 'User registered successfully' });
 });
 
 app.post('/login', async (req, res) => {
-    // role = owner | buyer to separate their landing pages
-    const { email, password, role } = req.body;
+    // role = buyer | seller to separate their landing pages
+    let { email, password } = req.body;
 
-    const [ results] = await connection.query('SELECT * FROM users WHERE email = ? AND role = ?', [email, role]);
+    if (!email || !password) {
+        res.status(400).send('Email and password required');
+        return;
+    }
+    const [ results] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
     // console.log(results[0]);
     if (results.length === 0) {
         // no user found
@@ -68,7 +72,7 @@ app.post('/login', async (req, res) => {
     }
     // create token
     const token = jwt.sign({ id: user.id }, 'supersecretkey', { expiresIn: '1h' });
-    res.json({ token: token, message: 'User logged in successfully' });
+    res.json({ token: token, role: user.role, message: 'User logged in successfully' });
 });
 
 
