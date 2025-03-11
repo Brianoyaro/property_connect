@@ -87,9 +87,14 @@ app.post('/upload-rental', async (req, res) => {
     }
 
     // const image = req.file.filename;
-    const [ rows ] = await connection.query('INSERT INTO rentals (title, description, price, location, owner_id, property_type) VALUES (?, ?, ?, ?, ?, ?)', [title, description, price, location, owner_id, property_type]);
-    const [ results ] = await connection.query('SELECT * FROM rentals WHERE id = ?', [rows.insertId]);
-    res.json({ rental: results[0], message: 'Rental uploaded successfully' });
+    try {
+        const [ results_1 ] = await connection.query('INSERT INTO rentals (title, description, price, location, owner_id, property_type) VALUES (?, ?, ?, ?, ?, ?)', [title, description, price, location, owner_id, property_type]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+        return;
+    }
+    res.json({ message: 'Rental uploaded successfully' });
 });
   
 // Book Rental Route
@@ -108,8 +113,20 @@ app.post('/book-rental', async (req, res) => {
         return res.status(400).json({ error: 'Rental already rented' });
     }
     // update rental status to rented. Should incorporate payment later because a person can boook but fail to pay later on.
-    let [ results_1, rows_1 ] = await connection.query('UPDATE rentals SET status = "rented" WHERE id = ?', [rental_id]);
-    let [ results_2, rows_2 ] = await connection.query('INSERT INTO bookings (rental_id, user_id) VALUES (?, ?)', [rental_id, user_id]);
+    try {
+        let [ results_1, rows_1 ] = await connection.query('UPDATE rentals SET status = "rented" WHERE id = ?', [rental_id]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+        return;
+    }
+    try {
+        let [ results_2, rows_2 ] = await connection.query('INSERT INTO bookings (rental_id, user_id) VALUES (?, ?)', [rental_id, user_id]);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error });
+        return;
+    }
     let [ results_3 ] = await connection.query('SELECT * FROM rentals WHERE id = ?', [results_2.insertId]);
     res.json({ bookedRental: results_3, message: 'Rental booked successfully' });
 });
@@ -118,8 +135,8 @@ app.post('/book-rental', async (req, res) => {
 app.get('/rentals', async (req, res) => {
     const { location, maxPrice, property_type } = req.query;
     // We should serch for avilable rentals only
-    let sql = 'SELECT * FROM rentals WHERE status = "available"';
-    //let sql = 'SELECT * FROM rentals WHERE 1=1';
+    //let sql = 'SELECT * FROM rentals WHERE status = "available"';
+    let sql = 'SELECT * FROM rentals WHERE 1=1';
     const params = [];
     if (location) {
         sql += ' AND location = ?';
@@ -133,7 +150,7 @@ app.get('/rentals', async (req, res) => {
         sql += ' AND property_type = ?';
         params.push(property_type);
     }
-    const [ results, rows ] = await connection.query(sql, params);
+    const [ results ] = await connection.query(sql, params);
     res.json({ rentals: results });
 });
 

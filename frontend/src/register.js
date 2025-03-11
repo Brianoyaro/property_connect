@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -10,6 +10,14 @@ export default function Register() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (token) {
+            navigate('/' + role + '-home');
+        }
+    }, [navigate]);
 
     const handleRegister = async (e) => {
         e.preventDefault();

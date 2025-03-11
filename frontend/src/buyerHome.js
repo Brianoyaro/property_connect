@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-//import { navigate } from "react-router-dom";
 
 export default function BuyerHome() {
     const [properties, setProperties] = useState([]);
     const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,7 +15,7 @@ export default function BuyerHome() {
         const fetchProperties = async () => {
             try {
                 const response = await axios.get('http://localhost:4000/rentals');
-                setProperties(response.rentals);
+                setProperties(response.data.rentals);
             } catch (error) {
                 setError('Error fetching properties');
             }
@@ -26,34 +24,43 @@ export default function BuyerHome() {
     }, [navigate]);
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">Buyer Home</h1>
+        <div className="container mx-auto p-6">
+            <h1 className="text-4xl font-bold text-center mb-6">Buyer Home</h1>
+            
             {error && <p className="text-white bg-red-400 p-3 text-sm text-center border rounded">{error}</p>}
-            {message && <p className="text-white bg-green-400 p-3 text-sm text-center border rounded">{message}</p>}
-            {/ add a filer functionality /}
+            
+            <p className="text-lg font-semibold mb-4">Filter Section</p>
 
-            { properties && properties.length === 0 ? <p>No properties found</p> :
-            <>
-            <p className='text-3xl font-bold underline'>Properties for sale/rental:</p>
-            {properties.map((property, index) => (
-                <Link to={`/rentals/${property.id}`} key={index}>
-                <div>
-                    <h2 className="text-xl font-bold">{property.title}</h2>
-                    <p>{property.description}</p>
-                    <p>{property.location}</p>
-                    <p>{property.type}</p>
-                    <p>${property.price}</p>
-                    <p>{property.status}</p>
-                </div>
-            </Link>
-            ))}
-            </>
-            }
-            <button className="" onClick={() => {
-                alert('seller has been conatcted')
-                setMessage('Seller has been contacted');
-            }
-            }>Contact Owner</button>
+            {properties.length === 0 ? (
+                <p className="text-center text-gray-600">No properties found</p>
+            ) : (
+                <>
+                    <h2 className="text-3xl font-bold mb-4">Properties for Sale/Rent</h2>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {properties.map((property) => (
+                            <Link to={`/rentals/${property.id}`} key={property.id} className="block">
+                                <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                    <img 
+                                        src={property.image || "https://via.placeholder.com/300"} 
+                                        alt={property.title} 
+                                        className="w-full h-48 object-cover"
+                                    />
+                                    <div className="p-4">
+                                        <h3 className="text-lg font-bold mb-2">{property.title}</h3>
+                                        <p className="text-gray-700">{property.location}</p>
+                                        <p className="text-gray-600">{property.type}</p>
+                                        <p className="text-gray-800 font-semibold">${property.price}</p>
+                                        <p className={`text-sm font-medium ${property.status === 'available' ? 'text-green-500' : 'text-red-500'}`}>
+                                            {property.status}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

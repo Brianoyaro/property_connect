@@ -27,49 +27,65 @@ export default function UploadRental() {
             const token = localStorage.getItem('token');
             const decoded = jwtDecode(token);
             const owner_id = decoded.id;
-            const response = await axios.post('http://localhost:4000/upload-rental', { title, description, location, type, price, owner_id});
+            // should be property_type instead of type. Why is price saving NULL?
+            await axios.post('http://localhost:4000/upload-rental', { title, description, location, property_type: type, price, owner_id});
             setMessage('Property uploaded successfully');
             setTimeout(() => {
-                navigate('/sellet-home');
+                navigate('/seller-home');
             }, 1000);
         } catch (error) {
-            setError('Upload failed');
+            console.log(error)
+            setError('Upload failed. Please try again.');
         }
-    }
-
+    };
     return (
-        <div>
-            <h1 className="text-3xl font-bold underline">Property Create View</h1>
-            {error && <p className="text-white bg-red-400 p-3 text-sm text-center border rounded">{error}</p>}
-            {message && <p className="text-white bg-green-400 p-3 text-sm text-center border rounded">{message}</p>}
-            <form className="mb-4" onSubmit={ handleRentalUpload}>
-                <div className="form-group">
-                    <label for="title">Property Title</label><br/>
-                    <input type="text" value={title}  onChange={(e) => setTitle(e.target.value)} id="title" className="" />
+        <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">Upload a Property</h1>
+            {error && <p className="bg-red-500 text-white p-2 text-sm text-center rounded">{error}</p>}
+            {message && <p className="bg-green-500 text-white p-2 text-sm text-center rounded">{message}</p>}
+            <form className="space-y-4" onSubmit={handleRentalUpload}>
+                <div>
+                    <label htmlFor="title" className="block text-gray-700 font-semibold">Property Title</label>
+                    <input type="text" id="title" value={title} 
+                        onChange={(e) => setTitle(e.target.value)} 
+                        className="w-full p-2 border rounded"
+                        required />
                 </div>
-                <div className="form-group">
-                    <label for="description">Property Description</label><br/>
-                    <textarea id="description" className="" onChange={(e) => setDescription(e.target.value)} placeholder="property description ...">{ description }</textarea>
+                <div>
+                    <label htmlFor="description" className="block text-gray-700 font-semibold">Property Description</label>
+                    <textarea id="description" value={description} 
+                        onChange={(e) => setDescription(e.target.value)} 
+                        className="w-full p-2 border rounded" 
+                        placeholder="Write a brief description..." 
+                        required />
                 </div>
-                <div className="form-group">
-                    <label for="location">Property Location</label><br/>
-                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" className="" />
+                <div>
+                    <label htmlFor="location" className="block text-gray-700 font-semibold">Property Location</label>
+                    <input type="text" id="location" value={location} 
+                        onChange={(e) => setLocation(e.target.value)} 
+                        className="w-full p-2 border rounded" 
+                        required />
                 </div>
-                <div className="form-group">
-                    <label for="type">Property Type</label><br/>
-                    <input type="text" id="type" className="" />
+                <div>
+                    <label htmlFor="type" className="block text-gray-700 font-semibold">Property Type</label>
+                    <select id="type" value={type} onChange={(e) => setType(e.target.value)} 
+                        className="w-full p-2 border rounded" required>
+                        <option value="">Select Property Type</option>
+                        <option value="house">House</option>
+                        <option value="apartment">Apartment</option>
+                    </select>
                 </div>
-                <select name="type" id="type" className="" onChange={(e) => setType(e.target.value)}>
-                    <option value="">Select Property Type</option>
-                    <option value="house">House</option>
-                    <option value="apartment">Apartment</option>
-                </select>
-                <div className="form-group">
-                    <label for="price">Property Price</label><br/>
-                    <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.price)} className="" />
+                <div>
+                    <label htmlFor="price" className="block text-gray-700 font-semibold">Property Price ($)</label>
+                    <input type="number" id="price" value={price} 
+                        onChange={(e) => setPrice(e.target.value)} 
+                        className="w-full p-2 border rounded" 
+                        required />
                 </div>
-                <button className="">Upload Property</button>
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
+                    Upload Property
+                </button>
             </form>
         </div>
-    )
+    );
 };
