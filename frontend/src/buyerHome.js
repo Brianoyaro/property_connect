@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 //import { navigate } from "react-router-dom";
 
-const [properties, setProperties] = useState([]);
-const [error, setError] = useState('');
-const [message, setMessage] = useState('');
-const navigate = useNavigate();
-
-useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        navigate('/login');
-    }
-    const fetchProperties = async () => {
-        try {
-            const response = await axios.get('http://localhost:4000/rentals');
-            setProperties(response.rentals);
-        } catch (error) {
-            setError('Error fetching properties');
-        }
-    }
-    fetchProperties();
-}, [navigate]);
-
 export default function BuyerHome() {
+    const [properties, setProperties] = useState([]);
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        }
+        const fetchProperties = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/rentals');
+                setProperties(response.rentals);
+            } catch (error) {
+                setError('Error fetching properties');
+            }
+        }
+        fetchProperties();
+    }, [navigate]);
+
     return (
         <div>
             <h1 className="text-3xl font-bold underline">Buyer Home</h1>

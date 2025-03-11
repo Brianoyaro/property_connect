@@ -3,30 +3,31 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
-const [property, setProperty] = useState({});
-const [error, setError] = useState('');
-const [message, setMessage] = useState('');
-const id = useParams().id;
-
-const navigate = useNavigate();
-
-useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        navigate('/login');
-    }
-    const fetchProperty = async () => {
-        try {
-            const response = await axios.get(`http://localhost:4000/rentals/${id}`);
-            setProperty(response.data);
-        } catch (error) {
-            setError('Error fetching property');
-        }
-    }
-    fetchProperty();
-}, [navigate]);
-
 export default function RentalDetailView() {
+
+    const [property, setProperty] = useState({});
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const id = useParams().id;
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+        }
+        const fetchProperty = async () => {
+            try {
+                const response = await axios.get(`http://localhost:4000/rentals/${id}`);
+                setProperty(response.data);
+            } catch (error) {
+                setError('Error fetching property');
+            }
+        }
+        fetchProperty();
+    }, [navigate]);
+    
     return (
         <div>
             <h1 className="text-3xl font-bold underline">Property Detail View</h1>

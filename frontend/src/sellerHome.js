@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
 
+export default function SellerHome() {
 const [properties, setProperties] = useState([]);
 const [error, setError] = useState('');
 const [message, setMessage] = useState('');
+const navigate = useNavigate();
 
 useEffect(() => {
     const token = localStorage.getItem('token');
@@ -22,7 +26,6 @@ useEffect(() => {
 }, [navigate]);
 
 
-export default function SellerHome() {
     return (
         <div>
             <h1 className="text-3xl font-bold underline">Seller Home</h1>

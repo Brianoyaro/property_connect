@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+//import jwt from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 
 export default function UploadRental() {
     const [title, setTitle] = useState('');
@@ -23,12 +25,7 @@ export default function UploadRental() {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            try {
-                const decoded = jwt_decode(token, 'supersecretkey');
-            } catch (error) {
-                setError('The token is invalid/expired');
-                return
-            }
+            const decoded = jwtDecode(token);
             const owner_id = decoded.id;
             const response = await axios.post('http://localhost:4000/upload-rental', { title, description, location, type, price, owner_id});
             setMessage('Property uploaded successfully');
@@ -56,7 +53,7 @@ export default function UploadRental() {
                 </div>
                 <div className="form-group">
                     <label for="location">Property Location</label><br/>
-                    <input type="text" value={locatin} onChange={(e) => setLocation(e.target.value)} id="location" className="" />
+                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" className="" />
                 </div>
                 <div className="form-group">
                     <label for="type">Property Type</label><br/>
