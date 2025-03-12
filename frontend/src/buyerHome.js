@@ -56,8 +56,8 @@ export default function BuyerHome() {
                                     />
                                     <div className="p-4">
                                         <h3 className="text-lg font-bold mb-2">{property.title}</h3>
-                                        <p className="text-gray-700">{property.location}</p>
-                                        <p className="text-gray-600">{property.property_type}</p>
+                                        <p className="text-gray-700">Location: {property.location}</p>
+                                        <p className="text-gray-600">Type: {property.property_type}</p>
                                         <p className="text-gray-800 font-semibold">${property.price}</p>
                                         <p className={`text-sm font-medium ${property.status === 'available' ? 'text-green-500' : 'text-red-500'}`}>
                                             {property.status}
