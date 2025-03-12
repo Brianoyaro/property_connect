@@ -155,7 +155,7 @@ app.post('/book-rental', async (req, res) => {
   
 // Get Rentals with Filtering
 app.get('/rentals', async (req, res) => {
-    const { location, maxPrice, property_type } = req.query;
+    const { location, minPrice, maxPrice, propertyType } = req.query;
     // We should serch for avilable rentals only
     //let sql = 'SELECT * FROM rentals WHERE status = "available"';
     let sql = 'SELECT * FROM rentals WHERE 1=1';
@@ -164,13 +164,17 @@ app.get('/rentals', async (req, res) => {
         sql += ' AND location = ?';
         params.push(location);
     }
+    if (minPrice) {
+        sql += ' AND price >= ?';
+        params.push(minPrice);
+    }
     if (maxPrice) {
         sql += ' AND price <= ?';
         params.push(maxPrice);
     }
     if (property_type) {
         sql += ' AND property_type = ?';
-        params.push(property_type);
+        params.push(propertyType);
     }
     const [ results ] = await connection.query(sql, params);
     res.json({ rentals: results });

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import FilterSection from "./filterComponent";
 import axios from "axios";
 
 export default function BuyerHome() {
@@ -23,6 +24,8 @@ export default function BuyerHome() {
         fetchProperties();
     }, [navigate]);
 
+
+
     return (
         <div className="container mx-auto p-6">
             <h1 className="text-4xl font-bold text-center mb-6">Buyer Home</h1>
@@ -30,6 +33,11 @@ export default function BuyerHome() {
             {error && <p className="text-white bg-red-400 p-3 text-sm text-center border rounded">{error}</p>}
             
             <p className="text-lg font-semibold mb-4">Filter Section</p>
+            <FilterSection onFilter={async (filters) => {
+                const response = await axios.get('http://localhost:4000/rentals', { params: filters });
+                setProperties(response.data.rentals);
+            }
+            } />
 
             {properties.length === 0 ? (
                 <p className="text-center text-gray-600">No properties found</p>
