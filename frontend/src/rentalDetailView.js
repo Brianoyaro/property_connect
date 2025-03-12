@@ -54,10 +54,10 @@ export default function RentalDetailView() {
                                 <p className="text-gray-600 text-lg">{property.description}</p>
                                 <div className="mt-4 space-y-2">
                                     <p className="text-gray-700 text-lg"><strong>📍 Location:</strong> {property.location}</p>
-                                    <p className="text-gray-700 text-lg"><strong>🏠 Type:</strong> {property.type}</p>
+                                    <p className="text-gray-700 text-lg"><strong>🏠 Type:</strong> {property.property_type}</p>
                                     <p className="text-gray-700 text-lg"><strong>💲 Price:</strong> ${property.price}</p>
                                     <p className="text-gray-700 text-lg"><strong>📌 Status:</strong> {property.status}</p>
-                                    <p className="text-gray-700 text-lg"><strong>👤 Owner:</strong> {property.owner}</p>
+                                    {/* <p className="text-gray-700 text-lg"><strong>👤 Owner:</strong> {property.owner}</p> */}
                                 </div>
                             </div>
                             <button 

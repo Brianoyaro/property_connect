@@ -55,7 +55,7 @@ export default function SellerHome() {
                             <h3 className="text-xl font-bold text-gray-800">{property.title}</h3>
                             <p className="text-gray-600">{property.description}</p>
                             <p className="text-gray-500"><strong>Location:</strong> {property.location}</p>
-                            <p className="text-gray-500"><strong>Type:</strong> {property.type}</p>
+                            <p className="text-gray-500"><strong>Type:</strong> {property.property_type}</p>
                             <p className="text-gray-700 font-bold text-lg">${property.price}</p>
                             <p className={`font-semibold mt-2 ${property.status === 'available' ? 'text-green-600' : 'text-red-600'}`}>
                                 {property.status}

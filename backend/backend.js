@@ -161,8 +161,9 @@ app.get('/rentals', async (req, res) => {
     let sql = 'SELECT * FROM rentals WHERE 1=1';
     const params = [];
     if (location) {
-        sql += ' AND location = ?';
-        params.push(location);
+        sql += ' AND location LIKE ?';
+        // params.push(location);
+        params.push(`%${location}%`);
     }
     if (minPrice) {
         sql += ' AND price >= ?';
@@ -172,7 +173,7 @@ app.get('/rentals', async (req, res) => {
         sql += ' AND price <= ?';
         params.push(maxPrice);
     }
-    if (property_type) {
+    if (propertyType) {
         sql += ' AND property_type = ?';
         params.push(propertyType);
     }
