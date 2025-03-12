@@ -57,6 +57,7 @@ Property Connect is a rental management application that allows users to browse 
 | POST   | /register            | Register a new user               |
 | POST   | /login               | Authenticate user login           |
 | POST   | /upload-rental       | Upload a new rental property      |
+| POST   | /my-rentals          | Get all rentals upladed by me     |
 
 ## License
 This project is licensed under the MIT License.
