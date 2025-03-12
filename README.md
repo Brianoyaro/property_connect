@@ -23,7 +23,7 @@ Property Connect is a rental management application that allows users to browse 
 ### Backend Setup
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/property-connect.git
+   git clone https://github.com/Brianoyaro/property-connect.git
    cd property-connect/backend
    ```
 2. Install dependencies:
