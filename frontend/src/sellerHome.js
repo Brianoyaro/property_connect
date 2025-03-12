@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
+import { jwtDecode } from "jwt-decode";
+
 
 export default function SellerHome() {
     const [properties, setProperties] = useState([]);
@@ -10,12 +12,15 @@ export default function SellerHome() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        const owner_id = decoded.id;
         if (!token) {
             navigate('/login');
         }
         const fetchProperties = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/rentals');
+                const response = await axios.post('http://localhost:4000/my-rentals', {owner_id});
+                // const response = await axios.get('http://localhost:4000/rentals');
                 setProperties(response.data.rentals);
             } catch (error) {
                 setError('Error fetching properties');

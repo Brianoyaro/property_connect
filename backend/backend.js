@@ -181,6 +181,16 @@ app.get('/rentals', async (req, res) => {
     res.json({ rentals: results });
 });
 
+// get rentals belonging to a particular user
+app.post('/my-rentals', async (req, res) => {
+    const { owner_id }= req.body;
+    console.log(owner_id);
+    let sql = 'SELECT * FROM rentals WHERE owner_id = ?';
+    const [ results ] = await connection.query(sql, owner_id);
+    res.json({ rentals: results });
+});
+
+
 // Get a rental given its id
 app.get('/rentals/:id', async (req, res) => {
     const { id } = req.params;
