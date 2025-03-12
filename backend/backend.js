@@ -42,12 +42,21 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 //     database: 'property_connect_database'
 // });
 
-// Create the connection to database
+// Create the connection to local database
+// const connection = mysql.createPool({
+//     host: 'localhost',
+//     user: 'brian',
+//     password: 'password',
+//     database: 'property_connect_backend',
+//   });
+
+// Create the connection to remote database
 const connection = mysql.createPool({
-    host: 'localhost',
-    user: 'brian',
-    password: 'password',
-    database: 'property_connect_backend',
+    port: 3306,
+    host: 'sql.freedb.tech',
+    user: 'freedb_brian-oyaro',
+    password: '?%PNCbpU@BWEjb3',
+    database: 'freedb_brian-oyaro-database',
   });
 
 app.post('/register', async (req, res) => {

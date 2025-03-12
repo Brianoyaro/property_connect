@@ -1,15 +1,15 @@
-CREATE USER if not exists `brian`@`localhost` IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON *.* TO `brian`@`localhost` WITH GRANT OPTION;
+-- local mysql connection
+-- CREATE USER if not exists `brian`@`localhost` IDENTIFIED BY 'password';
+-- GRANT ALL PRIVILEGES ON *.* TO `brian`@`localhost` WITH GRANT OPTION;
+-- FLUSH PRIVILEGES;
 
--- GRANT ALL PRIVILEGES ON *.* TO `brian`@`localhost` IDENTIFIED BY 'brian';
--- GRANT SELECT, INSERT, DELETE ON base.* TO 'user'@'localhost' IDENTIFIED BY 'password';
--- REVOKE ALL PRIVILEGES ON base.* FROM 'user'@'host'; -- one permission only
--- REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'user'@'host'; -- all permissions
-FLUSH PRIVILEGES;
+-- drop database if exists property_connect_backend;
+-- create database if not exists property_connect_backend;
+-- use property_connect_backend;
 
-drop database if exists property_connect_backend;
-create database if not exists property_connect_backend;
-use property_connect_backend;
+-- remote mysql connection
+-- mysql -h sql.freedb.tech -P 3306 -u freedb_brian-oyaro -p ?%PNCbpU@BWEjb3
+use freedb_brian-oyaro-database
 
 create table if not exists users (
     id int primary key auto_increment,

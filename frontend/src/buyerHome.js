@@ -8,6 +8,8 @@ export default function BuyerHome() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const baseUrl = 'http://localhost:4000';
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -15,7 +17,8 @@ export default function BuyerHome() {
         }
         const fetchProperties = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/rentals');
+                const response = await axios.get(`${baseUrl}/rentals`);
+                // const response = await axios.get('http://localhost:4000/rentals');
                 setProperties(response.data.rentals);
             } catch (error) {
                 setError('Error fetching properties');
@@ -34,7 +37,8 @@ export default function BuyerHome() {
             
             <p className="text-lg font-semibold mb-4">Filter Section</p>
             <FilterSection onFilter={async (filters) => {
-                const response = await axios.get('http://localhost:4000/rentals', { params: filters });
+                const response = await axios.get(`${baseUrl}/rentals`, { params: filters });
+                // const response = await axios.get('http://localhost:4000/rentals', { params: filters });
                 setProperties(response.data.rentals);
             }
             } />
@@ -50,7 +54,8 @@ export default function BuyerHome() {
                             <Link to={`/rentals/${property.id}`} key={property.id} className="block">
                                 <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                                     <img 
-                                        src={`http://localhost:4000${property.imageUrl}`|| "https://via.placeholder.com/300"} 
+                                        src={`${baseUrl}${property.imageUrl}`|| "https://via.placeholder.com/300"}
+                                        //src={`http://localhost:4000${property.imageUrl}`|| "https://via.placeholder.com/300"} 
                                         alt={property.title} 
                                         className="w-full h-48 object-cover"
                                     />

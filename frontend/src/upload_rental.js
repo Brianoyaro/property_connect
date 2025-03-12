@@ -15,6 +15,8 @@ export default function UploadRental() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const baseUrl = 'http://localhost:4000';
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -39,10 +41,11 @@ export default function UploadRental() {
             formData.append('owner_id', owner_id);
             if (imageUrl) formData.append('image', imageUrl);
             // should be property_type instead of type. Why is price saving NULL?
-            await axios.post('http://localhost:4000/upload-rental', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'}  
-                });
+            await axios.post(`${baseUrl}/upload-rental`, formData, {headers: {'Content-Type': 'multipart/form-data'}});
+            // await axios.post('http://localhost:4000/upload-rental', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'}  
+            //     });
             setMessage('Property uploaded successfully');
             setTimeout(() => {
                 navigate('/seller-home');

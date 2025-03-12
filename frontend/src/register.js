@@ -11,6 +11,8 @@ export default function Register() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const baseUrl = 'http://localhost:4000';
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
@@ -27,7 +29,8 @@ export default function Register() {
             return;
         }
         try {
-            await axios.post('http://localhost:4000/register', { email, password, role });
+            await axios.post(`${baseUrl}/register`, { email, password, role });
+            // await axios.post('http://localhost:4000/register', { email, password, role });
             setMessage('Registration successful');
             // Trigger a slight delay before redirecting to login page
             setTimeout(() => {  

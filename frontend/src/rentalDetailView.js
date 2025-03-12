@@ -9,6 +9,8 @@ export default function RentalDetailView() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const baseUrl = 'http://localhost:4000';
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -16,7 +18,8 @@ export default function RentalDetailView() {
         }
         const fetchProperty = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/rentals/${id}`);
+                const response = await axios.get(`${baseUrl}/rentals/${id}`);
+                // const response = await axios.get(`http://localhost:4000/rentals/${id}`);
                 setProperty(response.data.rental);
             } catch (error) {
                 setError("The property does not exist");

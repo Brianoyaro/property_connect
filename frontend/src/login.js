@@ -8,6 +8,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
+  const baseUrl = 'http://localhost:4000';
  
 
   useEffect(() => {
@@ -22,7 +24,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/login', { email, password });
+      const response = await axios.post(`${baseUrl}/login`, { email, password });
+      // const response = await axios.post('http://localhost:4000/login', { email, password });
       console.log(response)
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('role', response.data.role);
