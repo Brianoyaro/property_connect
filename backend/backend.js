@@ -26,10 +26,8 @@ const port = 4000;
 // cors middleware
 // app.use(cors());
 
-app.use(cors({ 
-    origin: "https://frontend-1yh6pk40l-brianoyaros-projects.vercel.app/", // Allow only this domain
-    credentials: true, // Allow cookies/sessions if used
-  }));
+app.use(cors({ origin: "*" })); // Allow all origins
+
 
 // parse application/json i.e json data
 app.use(express.json());
