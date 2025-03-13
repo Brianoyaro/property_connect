@@ -226,5 +226,5 @@ module.exports = app;
 // https://backend-osz5ddmwc-brianoyaros-projects.vercel.app/
 
 //Froentend
-//🔍  Inspect: https://vercel.com/brianoyaros-projects/frontend/2R76wQr7b8CHMZ1myiocrM5S3QVh 
-// ✅  Production: https://frontend-1yh6pk40l-brianoyaros-projects.vercel.app 
+//🔍  Inspect: https://vercel.com/brianoyaros-projects/frontend/GaQmWVXte2NhG7XcKm7CL7NLAfLS 
+//✅  Production: https://frontend-dr9cjr097-brianoyaros-projects.vercel.app 

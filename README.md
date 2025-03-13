@@ -2,6 +2,9 @@
 
 Property Connect is a rental management application that allows users to browse available properties, schedule viewings, and contact property owners. It features a Node.js backend and a React frontend.
 
+## Live Demo 🚀 
+View live application: [Click here](https://frontend-dr9cjr097-brianoyaros-projects.vercel.app)
+
 ## Features
 - **Authentication**: User registration and login.
 - **Homepage**: Displays available rentals.
