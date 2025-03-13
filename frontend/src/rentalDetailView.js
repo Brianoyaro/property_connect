@@ -47,7 +47,8 @@ export default function RentalDetailView() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6">
                         <div className="relative">
                             <img
-                                src={`http://localhost:4000${property.imageUrl}` || "https://via.placeholder.com/500"}
+                                src={`${baseUrl}${property.imageUrl}` || "https://via.placeholder.com/500"}
+                                //src={`http://localhost:4000${property.imageUrl}` || "https://via.placeholder.com/500"}
                                 alt={property.title}
                                 className="w-full h-96 object-cover rounded-lg shadow-lg"
                             />

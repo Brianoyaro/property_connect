@@ -56,7 +56,8 @@ export default function SellerHome() {
                     {properties.map((property, index) => (
                         <div key={index} className="bg-white shadow-lg rounded-lg p-4 border">
                             <img 
-                                src={`http://localhost:4000${property.imageUrl}` || "https://via.placeholder.com/300"} 
+                                src={`${baseUrl}${property.imageUrl}` || "https://via.placeholder.com/300"}
+                                // src={`http://localhost:4000${property.imageUrl}` || "https://via.placeholder.com/300"} 
                                 alt={property.title} 
                                 className="w-full h-48 object-cover rounded-lg"
                             />
