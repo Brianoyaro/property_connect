@@ -24,7 +24,13 @@ const port = 4000;
 // middleware
 // ***********************
 // cors middleware
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({ 
+    origin: "https://frontend-14ff741a7-brianoyaros-projects.vercel.app", // Allow only this domain
+    credentials: true, // Allow cookies/sessions if used
+  }));
+
 // parse application/json i.e json data
 app.use(express.json());
 // parse application/x-www-form-urlencoded i.e form data
@@ -213,3 +219,14 @@ app.get('/rentals/:id', async (req, res) => {
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+
+
+// because I want to deploy on verce
+module.exports = app;
+// Backend
+// inspect: https://vercel.com/brianoyaros-projects/backend/4NCXibDDFQ3bYmY2nt1WAd7QQKsg 
+// https://backend-osz5ddmwc-brianoyaros-projects.vercel.app/
+
+//Froentend
+// inspect: https://vercel.com/brianoyaros-projects/frontend/27TL9cC5bHGRfhpRUjmeX6EZRyLm 
+// https://frontend-14ff741a7-brianoyaros-projects.vercel.app 

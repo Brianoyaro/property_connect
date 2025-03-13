@@ -11,7 +11,8 @@ export default function Register() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const baseUrl = 'http://localhost:4000';
+    const baseUrl = 'https://backend-osz5ddmwc-brianoyaros-projects.vercel.app'
+    //const baseUrl = 'http://localhost:4000';
 
     useEffect(() => {
         const token = localStorage.getItem('token');
