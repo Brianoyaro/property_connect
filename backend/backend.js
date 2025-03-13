@@ -27,7 +27,7 @@ const port = 4000;
 // app.use(cors());
 
 app.use(cors({ 
-    origin: "https://frontend-14ff741a7-brianoyaros-projects.vercel.app", // Allow only this domain
+    origin: "https://frontend-1yh6pk40l-brianoyaros-projects.vercel.app/", // Allow only this domain
     credentials: true, // Allow cookies/sessions if used
   }));
 
@@ -228,5 +228,5 @@ module.exports = app;
 // https://backend-osz5ddmwc-brianoyaros-projects.vercel.app/
 
 //Froentend
-// inspect: https://vercel.com/brianoyaros-projects/frontend/27TL9cC5bHGRfhpRUjmeX6EZRyLm 
-// https://frontend-14ff741a7-brianoyaros-projects.vercel.app 
+//🔍  Inspect: https://vercel.com/brianoyaros-projects/frontend/2R76wQr7b8CHMZ1myiocrM5S3QVh 
+// ✅  Production: https://frontend-1yh6pk40l-brianoyaros-projects.vercel.app 
